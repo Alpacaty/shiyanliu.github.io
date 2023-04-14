@@ -1,0 +1,96 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>
+      实验六
+      JavaScript 4.26
+    </title>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.26/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.26/"></script>
+
+    <script>
+      require([
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/layers/FeatureLayer",
+        "esri/widgets/ScaleBar",
+        "esri/widgets/Search",
+        "esri/widgets/BasemapLayerList",
+        "esri/widgets/Compass",
+        "esri/widgets/Legend",
+        "esri/widgets/Home",
+        "esri/widgets/Fullscreen",
+        "esri/widgets/LayerList"
+      ], (Map, MapView, FeatureLayer, ScaleBar, Search, BasemapLayerList, Compass, Legend, Home, Fullscreen, LayerList) => {
+        const feature = new FeatureLayer({url: "https://services2.arcgis.com/No7KRrFgpO516cMP/arcgis/rest/services/Incidents/FeatureServer"})
+
+        const map = new Map({
+          basemap: "topo-vector",
+          layers: [feature]
+        });
+
+        const view = new MapView({
+          container: "viewDiv",
+          map: map,
+          zoom: 5,
+          center: [105, 30]
+        });
+
+        const scaleBar = new ScaleBar({view: view});
+
+        view.ui.add(scaleBar, "bottom-left");
+        
+        let basemapLayerList = new BasemapLayerList({view: view});
+        
+        //view.ui.add(basemapLayerList, "top-right"});
+        
+        const compass = new Compass({view: view});
+        
+        view.ui.add(compass, "top-left")
+        
+        let legend = new Legend({view: view});
+        
+        view.ui.add(legend, "bottom-right");
+        
+        let homeWidget = new Home({view: view});
+        
+        view.ui.add(homeWidget, "top-left");
+        
+        fullscreen = new Fullscreen({view: view});
+        
+        view.ui.add(fullscreen, "top-left");
+        
+        const layerList = new LayerList({view: view});
+        
+        view.ui.add(layerList, "top-right");
+
+        const search = new Search({view: view})
+        
+        view.ui.add(search, "top-right")
+        
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>
